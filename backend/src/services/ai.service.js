@@ -49,7 +49,9 @@ const interviewReportSchema = z.object({
             focus: z.string(),
             tasks: z.array(z.string())
         })
-    )
+    ),
+
+    title: z.string().describe("The title of the job for which the interview report is generated"),
 
 })
 
