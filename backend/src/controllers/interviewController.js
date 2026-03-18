@@ -28,7 +28,7 @@ async function generateInterviewReportController(req, res) {
 
     res.status(201).json({
         message: "Interview report generated successfully",
-        reportResponse
+        interviewReport
     })
 }
 
