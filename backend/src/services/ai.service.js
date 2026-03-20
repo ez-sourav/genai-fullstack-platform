@@ -194,8 +194,16 @@ STRICT RULES:
 
 7. FORMATTING:
 - Use bullet points for readability
-- Highlight important keywords using <strong>
-- Keep spacing consistent
+
+- DO NOT use <strong> or <b> inside paragraph text or bullet points
+- Do NOT highlight keywords inside sentences
+
+- <strong> can ONLY be used for:
+  - Section headings (Summary, Skills, Projects, Education)
+  - Optional: Skill category labels (Backend, Frontend, etc.)
+
+- Keep all paragraph and bullet content plain text
+- Maintain consistent spacing and clean layout
 
 8. IMPORTANT:
 - Do NOT hallucinate fake experience
