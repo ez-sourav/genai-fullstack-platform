@@ -1,9 +1,7 @@
 import { useContext,useEffect } from 'react'
-import { getAllInterviewReports, getInterviewReportById, generateInterviewReport } from '../services/interview.api'
+import { getAllInterviewReports, getInterviewReportById, generateInterviewReport,generateResumePdf } from '../services/interview.api'
 import { InterviewContext } from '../interview.context'
 import { useParams } from 'react-router-dom'
-
-
 
 export const useInterview = () => {
     const context = useContext(InterviewContext);
@@ -28,7 +26,7 @@ export const useInterview = () => {
         return response.interviewReport;
     }
 
-    const getRportById = async (interviewId) => {
+    const getReportById = async (interviewId) => {
         setLoading(true);
         let response = null;
         try {
@@ -56,9 +54,33 @@ export const useInterview = () => {
         return response.interviewReports;
     }
 
+
+   const getResumePdf = async (interviewReportId) => {
+    setLoading(true);
+    try {
+        const response = await generateResumePdf({ interviewReportId });
+
+        const url = window.URL.createObjectURL(response);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `resume_${interviewReportId}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        window.URL.revokeObjectURL(url); 
+
+    } catch (error) {
+        console.error("Error downloading resume:", error.response?.data || error.message);
+    } finally {
+        setLoading(false);
+    }
+};
+
     useEffect(() => {
         if (interviewId) {
-            getRportById(interviewId);
+            getReportById(interviewId);
         }else{
             getReports();
         }
@@ -69,7 +91,8 @@ export const useInterview = () => {
         report,
         reports,
         generateReport,
-        getRportById,
-        getReports
+        getReportById,
+        getReports, 
+        getResumePdf 
     }
 }
