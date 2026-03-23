@@ -10,10 +10,12 @@ export const useInterview = () => {
         throw new Error('useInterview must be used within an InterviewProvider');
     }
 
-    const { loading, setLoading, report, setReport, reports, setReports } = context;
+    const { isGenerating, setIsGenerating,
+    isFetchingReports, setIsFetchingReports,
+    isFetchingSingle, setIsFetchingSingle, report, setReport, reports, setReports, error, setError } = context;
 
     const generateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
-        setLoading(true);
+        setIsGenerating(true);
         let response = null;
         try {
             response = await generateInterviewReport({ jobDescription, selfDescription, resumeFile });
@@ -21,27 +23,30 @@ export const useInterview = () => {
         } catch (error) {
             console.error("Error generating interview report:", error);
         } finally {
-            setLoading(false);
+            setIsGenerating(false);
         }
         return response.interviewReport;
     }
 
     const getReportById = async (interviewId) => {
-        setLoading(true);
+        setIsFetchingSingle(true);
+        setError(null);
         let response = null;
         try {
             response = await getInterviewReportById(interviewId);
             setReport(response.interviewReport);
         } catch (error) {
             console.error("Error fetching interview report:", error);
+            setReport(null);       
+        setError("Report not found or invalid ID");  
         } finally {
-            setLoading(false);
+            setIsFetchingSingle(false);
         }
         return response.interviewReport;
     }
 
     const getReports = async () => {
-        setLoading(true);
+        setIsFetchingReports(true);
         let response = null;
         try {
             response = await getAllInterviewReports();
@@ -49,14 +54,14 @@ export const useInterview = () => {
         } catch (error) {
             console.error("Error fetching interview reports:", error);
         } finally {
-            setLoading(false);
+            setIsFetchingReports(false);
         }
         return response.interviewReports;
     }
 
 
    const getResumePdf = async (interviewReportId) => {
-    setLoading(true);
+    // setLoading(true);
     try {
         const response = await generateResumePdf({ interviewReportId });
 
@@ -74,7 +79,7 @@ export const useInterview = () => {
     } catch (error) {
         console.error("Error downloading resume:", error.response?.data || error.message);
     } finally {
-        setLoading(false);
+        // setLoading(false);
     }
 };
 
@@ -87,7 +92,9 @@ export const useInterview = () => {
     }, [interviewId])
 
     return {
-        loading,
+        isGenerating,
+isFetchingReports,
+isFetchingSingle,
         report,
         reports,
         generateReport,
