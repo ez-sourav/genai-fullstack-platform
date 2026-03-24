@@ -1,0 +1,207 @@
+@use "../features/interview/style/home.scss" as *;
+
+.notfound {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, $bg-page 0%, lighten($bg-page, 3%) 100%);
+  padding: 1.5rem;
+  font-family: $font-stack;
+
+  &__card {
+    background: $bg-card;
+    border: 1px solid $border-color;
+    border-radius: 1rem;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    max-width: 450px;
+    width: 100%;
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    animation: fadeInUp 0.4s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  &__icon-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__icon {
+    color: $accent;
+    opacity: 0.8;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  &__code {
+    font-size: 4rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    background: linear-gradient(135deg, $accent 0%, lighten($accent, 10%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+  }
+
+  &__title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0 0 0.75rem;
+  }
+
+  &__desc {
+    font-size: 0.9rem;
+    color: $text-muted;
+    margin: 0 0 2rem;
+    line-height: 1.6;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 0.6rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    font-family: $font-stack;
+    white-space: nowrap;
+
+    &--primary {
+      background: linear-gradient(135deg, $accent 0%, $accent-dark 100%);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba($accent, 0.3);
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba($accent, 0.2);
+      }
+    }
+
+    &--secondary {
+      background: transparent;
+      color: $text-muted;
+      border: 1px solid $border-color;
+
+      &:hover {
+        background-color: rgba($accent, 0.08);
+        border-color: $accent;
+        color: $accent;
+      }
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: 640px) {
+  .notfound {
+    padding: 1rem;
+
+    &__card {
+      padding: 2rem 1.5rem;
+      border-radius: 0.75rem;
+    }
+
+    &__icon-wrapper {
+      margin-bottom: 1.25rem;
+    }
+
+    &__icon {
+      width: 60px;
+      height: 60px;
+    }
+
+    &__code {
+      font-size: 3rem;
+    }
+
+    &__title {
+      font-size: 1.1rem;
+    }
+
+    &__desc {
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    &__btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.85rem;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    &__actions {
+      gap: 0.75rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .notfound {
+    &__card {
+      padding: 1.75rem 1.25rem;
+    }
+
+    &__code {
+      font-size: 2.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    &__title {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    &__desc {
+      font-size: 0.8rem;
+      margin-bottom: 1.25rem;
+    }
+
+    &__btn {
+      width: 100%;
+      padding: 0.7rem 1rem;
+    }
+  }
+}

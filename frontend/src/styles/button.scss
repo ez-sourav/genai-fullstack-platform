@@ -1,18 +1,29 @@
-.button{
-    border: none;
-    outline: none;
-    padding-inline: 1.5rem;
-    padding-block: 0.75rem;
-    border-radius: 1rem;
-    cursor: pointer;
+@use "../features/interview/style/home.scss" as *;
 
-    transition: all 0.3s ease-in-out;
+.button {
+  border: none;
+  outline: none;
+  padding-inline: 1.5rem;
+  padding-block: 0.75rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-family: $font-stack;
+  font-weight: 600;
 
-    &.primary-button{
-        background: #e1034d;
-        color: white;
+  transition: all 0.25s ease;
+
+  &.primary-button {
+    background: linear-gradient(135deg, $accent 0%, #ff9f1c 100%);
+    color: #fff;
+
+    
+
+    &:hover {
+      opacity: 0.95; 
     }
-    &:active{
-        transform: scale(0.95);
-    }
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
 }
