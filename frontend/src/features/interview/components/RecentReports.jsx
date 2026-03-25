@@ -14,7 +14,7 @@ import "../style/recentReports.scss";
  * @param {Object} props
  * @param {Report[]} props.reports - Array of report objects
  */
-export const RecentReports = ({ reports }) => {
+export const RecentReports = ({ reports,loading  }) => {
     const navigate = useNavigate();
 
     const formatDate = (dateString) => {
@@ -28,8 +28,20 @@ export const RecentReports = ({ reports }) => {
     const getScoreTier = (score) => {
         if (score >= 80) return { tier: "high", label: "Excellent" };
         if (score >= 60) return { tier: "mid", label: "Good" };
-        return { tier: "low", label: "Fair" };
+        return { tier: "low", label: "Needs Work" };
     };
+
+    if (loading) {
+    return (
+        <section className="recent-reports">
+            <div className="reports-list">
+                {[1, 2, 3].map((i) => (
+                    <div key={i} className="report-item skeleton"></div>
+                ))}
+            </div>
+        </section>
+    );
+}
 
     return (
         <section className="recent-reports">
