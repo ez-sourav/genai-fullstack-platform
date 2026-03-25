@@ -70,7 +70,10 @@ export const generateResumePdf = async ({ interviewReportId }) => {
       { responseType: "blob" }
     );
 
-    return response.data;
+    return {
+      data: response.data,
+      contentType: response.headers["content-type"],
+    };
   } catch (error) {
     console.error("Error generating PDF:", error);
     throw error;

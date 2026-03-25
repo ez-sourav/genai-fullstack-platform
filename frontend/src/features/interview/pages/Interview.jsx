@@ -172,9 +172,10 @@ const Interview = () => {
 
     // Download handler -------------------------
     const handleDownload = async () => {
+        if (downloading) return;
         setDownloading(true);
         toast.dismiss();
-        const toastId = toast.loading("Downloading resume...");
+        const toastId = toast.loading("Generating  resume...");
 
         try {
 
@@ -184,9 +185,14 @@ const Interview = () => {
                 id: toastId,
             });
         } catch (error) {
-            toast.error("Failed to download resume", {
-                id: toastId,
-            });
+            console.error(error);
+
+            const message =
+                error?.response?.status === 429
+                    ? "AI limit reached. Try again in 1–2 minutes."
+                    : "Failed to download resume. Please try again.";
+
+            toast.error(message, { id: toastId });
         } finally {
             setDownloading(false);
         }

@@ -65,11 +65,18 @@ export const useInterview = () => {
 
 
     const getResumePdf = async (interviewReportId) => {
-        // setLoading(true);
         try {
             const response = await generateResumePdf({ interviewReportId });
 
-            const url = window.URL.createObjectURL(response);
+            const { data, contentType } = response;
+
+            // ✅ CHECK if it's real PDF
+            if (!contentType || !contentType.includes("application/pdf")) {
+                throw new Error("Invalid PDF response");
+            }
+
+            // ✅ Download only if valid
+            const url = window.URL.createObjectURL(data);
 
             const link = document.createElement("a");
             link.href = url;
@@ -80,10 +87,12 @@ export const useInterview = () => {
 
             window.URL.revokeObjectURL(url);
 
+            return true; // ✅ success signal
+
         } catch (error) {
-            console.error("Error downloading resume:", error.response?.data || error.message);
-        } finally {
-            // setLoading(false);
+            console.error("Error downloading resume:", error);
+
+            throw error; // 🔥 IMPORTANT (propagate to UI)
         }
     };
 
