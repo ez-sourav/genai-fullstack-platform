@@ -8,29 +8,42 @@ import Interview from "./features/interview/pages/Interview";
 import { PublicRoute } from "./features/auth/components/PublicRoute";
 import { NotFound } from "./pages/NotFound";
 
+import Layout from "./layout/Layout";
+
 export const router = createBrowserRouter([
-    {
-        path: '/login',
-        element: <PublicRoute> <Login /> </PublicRoute>
-    },
-    {
-        path: '/register',
-        element: <PublicRoute> <Register /> </PublicRoute>
-    },
-    {
-        path: '/',
-        element: <Protected><Home /></Protected>
-    },
-    {
-        path: '/recent-plans',
-        element: <Protected><RecentPlans /></Protected>
-    },
-    {
-        path: '/interview/:interviewId',
-        element: <Protected><Interview /></Protected>
-    },
-    {
-        path: '*',
-        element: <NotFound />
-    }
-])
+  {
+    path: '/',
+    element: (
+      <Protected>
+        <Layout />
+      </Protected>
+    ),
+    children: [
+      {
+        index: true,
+        element: <Home />
+      },
+      {
+        path: 'recent-plans',
+        element: <RecentPlans />
+      },
+      {
+        path: 'interview/:interviewId',
+        element: <Interview />
+      }
+    ]
+  },
+
+  {
+    path: '/login',
+    element: <PublicRoute><Login /></PublicRoute>
+  },
+  {
+    path: '/register',
+    element: <PublicRoute><Register /></PublicRoute>
+  },
+  {
+    path: '*',
+    element: <NotFound />
+  }
+]);
