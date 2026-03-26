@@ -1,57 +1,80 @@
 // ── Recent Reports Styles ─────────────────────────────────────────────────────
 
 // ── Variables ──────────────────────────────────────────────────────────────────
-$bg-page:        #0b0b0c;
-$bg-card:        #161617;
-$bg-panel:       #1d1d1f;
-$bg-input:       #18181a;
+$bg-page: #0b0b0c;
+$bg-card: #161617;
+$bg-panel: #1d1d1f;
+$bg-input: #18181a;
 
-$border-color:   #2a2a2d;
-$border-focus:   #FF7F11;
+$border-color: #2a2a2d;
+$border-focus: #ff7f11;
 
-$text-primary:   #f9fafb;
-$text-muted:     #9ca3af;
+$text-primary: #f9fafb;
+$text-muted: #9ca3af;
 
-$accent:         #FF7F11;
-$accent-dark:    #e56f00;
-$accent-glow:    rgba(#FF7F11, 0.18);
+$accent: #ff7f11;
+$accent-dark: #e56f00;
+$accent-glow: rgba(#ff7f11, 0.18);
 
-$success:        #22c55e;
-$success-bg:     rgba(#22c55e, 0.12);
+$success: #22c55e;
+$success-bg: rgba(#22c55e, 0.12);
 $success-border: rgba(#22c55e, 0.35);
 
-$warning:        #f59e0b;
-$warning-bg:     rgba(#f59e0b, 0.12);
+$warning: #f59e0b;
+$warning-bg: rgba(#f59e0b, 0.12);
 
-$error:          #ef4444;
-$error-bg:       rgba(#ef4444, 0.12);
+$error: #ef4444;
+$error-bg: rgba(#ef4444, 0.12);
 
-$info-bg:        #2b1a0f;
-$info-border:    #FF7F11;
+$info-bg: #2b1a0f;
+$info-border: #ff7f11;
 
-$font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-stack:
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Roboto,
+  sans-serif;
 
 // ── Keyframes ──────────────────────────────────────────────────────────────────
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 // ── Recent Reports Container ───────────────────────────────────────────────────
 .recent-reports {
   width: 100%;
   max-width: 100%;
-  padding: 0 1rem;
   animation: fadeInUp 0.5s ease both;
   box-sizing: border-box;
 
@@ -76,6 +99,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     color: $text-muted;
     margin: 0;
     font-family: $font-stack;
+    text-align: left;
   }
 }
 
@@ -94,7 +118,11 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba($accent, 0.15) 0%, rgba($accent, 0.08) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba($accent, 0.15) 0%,
+    rgba($accent, 0.08) 100%
+  );
   border: 1px solid rgba($accent, 0.3);
   color: $accent;
   font-weight: 700;
@@ -237,22 +265,22 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   flex-direction: column;
   align-items: center;
   justify-content: center;
-   padding: 0.4rem 0.65rem;   // smaller
-  min-width: 60px;          // reduced width
+  padding: 0.4rem 0.65rem; // smaller
+  width: 75px; // reduced width
   border-radius: 0.5rem;
   font-family: $font-stack;
   transition: all 0.25s ease;
   white-space: nowrap;
 
   .score-value {
-    font-size: 0.95rem;     // smaller number
+    font-size: 0.95rem; // smaller number
     font-weight: 600;
     line-height: 1;
     margin-bottom: 0.15rem;
   }
 
   .score-label {
-   font-size: 0.6rem;      // smaller label
+    font-size: 0.6rem; // smaller label
     letter-spacing: 0.03em;
     font-weight: 500;
     text-transform: uppercase;
@@ -272,13 +300,12 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   }
 
   &.score--low {
-     background-color: rgba(#fb923c, 0.12);
-  border: 1px solid rgba(#fb923c, 0.35);
-  color: #fb923c;
-  filter: saturate(6);
+    background-color: rgba(#fb923c, 0.12);
+    border: 1px solid rgba(#fb923c, 0.35);
+    color: #fb923c;
+    filter: saturate(6);
   }
 }
-
 
 // ── Empty State ────────────────────────────────────────────────────────────────
 .empty-state {
@@ -288,7 +315,11 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   justify-content: center;
   gap: 1.5rem;
   padding: 3.5rem 2rem;
-  background: linear-gradient(135deg, rgba($accent, 0.05) 0%, rgba($accent, 0.02) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba($accent, 0.05) 0%,
+    rgba($accent, 0.02) 100%
+  );
   border: 1px dashed $border-color;
   border-radius: 1rem;
   text-align: center;
@@ -364,19 +395,18 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 .skeleton {
   height: 60px;
   border-radius: 8px;
-  background: linear-gradient(
-    90deg,
-    #1d1d1f 25%,
-    #2a2a2d 50%,
-    #1d1d1f 75%
-  );
+  background: linear-gradient(90deg, #1d1d1f 25%, #2a2a2d 50%, #1d1d1f 75%);
   background-size: 200% 100%;
   animation: shimmer 1.2s infinite;
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 // ── Responsive Styles (IMPROVED) ─────────────────────────────────────────
@@ -412,7 +442,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 
 @media (max-width: 768px) {
   .recent-reports {
-    padding: 0 0.75rem;
+    padding: 0 0.5rem;
 
     &__header {
       flex-direction: column;
@@ -434,7 +464,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   }
 
   .report-item {
-    flex-wrap: nowrap; 
+    flex-wrap: nowrap;
     align-items: center;
     padding: 0.7rem 0.85rem;
     gap: 0.6rem;
@@ -478,7 +508,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 
 @media (max-width: 480px) {
   .recent-reports {
-    padding: 0 0.6rem;
+    padding: 0 0.2rem;
 
     &__header {
       h2 {
@@ -522,7 +552,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   }
 
   .match-score-badge {
-    min-width: 50px;
+    width: 50px;
     padding: 0.25rem 0.5rem;
 
     .score-value {
@@ -531,7 +561,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 
     .score-label {
       font-size: 0.5rem;
-       display: none;
+      display: none;
     }
   }
 }
@@ -551,7 +581,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
   }
 
   .match-score-badge {
-    min-width: 45px;
+    width: 45px;
 
     .score-value {
       font-size: 0.75rem;
