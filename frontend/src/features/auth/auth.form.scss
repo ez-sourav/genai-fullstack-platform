@@ -1,40 +1,172 @@
 @use "../interview/style/home.scss" as *;
 
-main{
-    min-height: 100vh;
+main {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+
+  background: $bg-page; 
+  color: $text-primary;
+
+  .form-container {
     width: 100%;
+    max-width: 420px;
+    background: $bg-card; 
+    padding: 2rem;
+    border-radius: 1.25rem;
+    border: 1px solid $border-color;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    gap: 1.2rem;
 
-    .form-container{
-        min-width: 350px;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+    h1 {
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: $text-primary;
     }
-    form{
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: $text-muted;
     }
 
-    .input-group{
-        display: flex;
-        flex-direction: column;
-        gap:0.5rem;
+    input {
+      background: $bg-input;
+      border: 1px solid $border-color;
+      outline: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.6rem;
+      font-size: 0.9rem;
+      color: $text-primary;
+      transition: all 0.2s ease;
 
+      &::placeholder {
+        color: $text-muted;
+      }
 
-        input{
-            border: none;
-            outline: none;
-            padding: 1rem;
-            padding-block: 0.75rem;
-            border-radius: 0.75rem;
-        }
+      &:focus {
+        border-color: $accent;
+        box-shadow: 0 0 0 2px $accent-glow;
+      }
     }
-    a{
+  }
+
+  
+  .password-input-wrapper {
+    position: relative;
+
+    input {
+      width: 100%;
+      padding-right: 2.5rem;
+    }
+
+    .eye-icon {
+      position: absolute;
+      top: 50%;
+      right: 0.75rem;
+      transform: translateY(-50%);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: $text-muted;
+      transition: color 0.2s;
+
+      &:hover {
         color: $accent;
-        text-decoration: none;
+      }
     }
+  }
+
+  
+  .error {
+    font-size: 0.75rem;
+    color: #ef4444;
+    margin-top: 0.2rem;
+    display: flex;
+  }
+
+ 
+  .button.primary-button {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 0.6rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, $accent, $accent-dark);
+    color: white;
+    border: none;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+    //   box-shadow: 0 5px 20px rgba($accent, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  /* bottom text */
+  p {
+    text-align: center;
+    font-size: 0.85rem;
+    color: $text-muted;
+  }
+
+  a {
+    color: $accent;
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+
+.eye-icon {
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+/* 📱 Responsive */
+@media (max-width: 480px) {
+  main {
+    padding: 1rem;
+
+    .form-container {
+      padding: 1.5rem;
+      border-radius: 1rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
 }

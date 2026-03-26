@@ -3,8 +3,8 @@ import { useAuth } from "../hooks/useAuth"
 import { LoadingScreen } from "./LoadingScreen"
 
 export const PublicRoute = ({ children }) => {
-    const {user,loading} = useAuth()
-    if(loading){
+    const {user,isAuthChecked } = useAuth()
+    if(!isAuthChecked ){
        return <LoadingScreen message="Checking authentication..." subMessage="Please wait" />
     }
     if(user){

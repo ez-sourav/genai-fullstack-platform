@@ -1,49 +1,173 @@
-import  { useState } from 'react'
-import { useNavigate, Link } from 'react-router'
-import { useAuth } from '../hooks/useAuth';
+import { useForm } from "react-hook-form";
+import "../auth.form.scss";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
 
 export const Register = () => {
-  const {loading,handleRegister} = useAuth();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const { loading, handleRegister } = useAuth();
+
+  const [serverError, setServerError] = useState("");
+  const [fieldError, setFieldError] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-   await handleRegister({username,email,password})
-    navigate('/')
-  }
 
-  if(loading){
-    return (
-      <main>
-        <h1>Loading...</h1>
-      </main>
-    )
-  }
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const passwordValue = watch("password") || "";
+
+  const onSubmit = async (data) => {
+    setServerError("");
+    setFieldError({});
+
+    const res = await handleRegister({
+      username: data.username.trim(),
+      email: data.email.trim(),
+      password: data.password.trim(),
+    });
+
+    if (res.success) {
+      navigate("/");
+    } else {
+      const msg = res.message?.toLowerCase() || "";
+
+      if (msg.includes("username")) {
+        setFieldError({ username: res.message });
+      } else if (msg.includes("email") || msg.includes("account")) {
+        setFieldError({
+          email: "Email already registered. Try logging in.",
+        });
+      } else {
+        setServerError(res.message);
+      }
+    }
+  };
+
   return (
     <main>
       <div className="form-container">
         <h1>Register</h1>
-        <form onSubmit={handleSubmit}>
+
+        
+        {serverError && <p className="error">{serverError}</p>}
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          
+          
           <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input type="text" value={username} onChange={(e)=>{setUsername(e.target.value)}} name="username" id="username" placeholder='Enter username' />
+            <label>Username</label>
+            <input
+              type="text"
+              placeholder="Enter username"
+              autoComplete="username"
+              {...register("username", {
+                required: "Username is required",
+                minLength: {
+                  value: 3,
+                  message: "Minimum 3 characters",
+                },
+              })}
+            />
+
+            {errors.username && (
+              <p className="error">{errors.username.message}</p>
+            )}
+
+            {fieldError.username && (
+              <p className="error">{fieldError.username}</p>
+            )}
           </div>
+
+        
           <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input type="email" value={email} onChange={(e)=>{setEmail(e.target.value)}} name="email" id="email" placeholder='Enter email address' />
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Enter email address"
+              autoComplete="email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "Enter a valid email",
+                },
+              })}
+            />
+
+            {errors.email && (
+              <p className="error">{errors.email.message}</p>
+            )}
+
+            {fieldError.email && (
+              <p className="error">
+                {fieldError.email} 
+              </p>
+            )}
           </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} name="password" id="password" placeholder='Enter password' />
+
+          
+          <div className="input-group password-group">
+            <label>Password</label>
+
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter password"
+                autoComplete="new-password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Minimum 6 characters",
+                  },
+                })}
+              />
+
+              {passwordValue && (
+                <span
+                  className="eye-icon"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                >
+                  {showPassword ? (
+                   
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
+                      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                  ) : (
+                    
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path d="M17.94 17.94C16.18 19.22 14.15 20 12 20C5 20 1 12 1 12C2.06 9.94 3.56 8.18 5.36 6.86M9.9 4.24C10.59 4.08 11.29 4 12 4C19 4 23 12 23 12C22.18 13.6 21.1 15.06 19.82 16.32M1 1L23 23" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                  )}
+                </span>
+              )}
+            </div>
+
+            {errors.password && (
+              <p className="error">{errors.password.message}</p>
+            )}
           </div>
-          <button className='button primary-button'>Register</button>
+
+         
+          <button
+            className="button primary-button"
+            disabled={isSubmitting || loading}
+          >
+            {isSubmitting || loading ? "Creating account..." : "Register"}
+          </button>
         </form>
 
-        <p>Already have an account? <Link to='/login'>Login</Link> </p>
+        <p>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </div>
     </main>
-  )
-}
+  );
+};

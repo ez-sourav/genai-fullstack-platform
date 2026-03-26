@@ -1,4 +1,5 @@
 @use "./styles/button.scss";
+@use "./features/interview/style/home.scss" as *;
 
 * {
   margin: 0;
@@ -19,4 +20,22 @@ body,
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 🔥 Fix browser autofill background issue */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #{$bg-input} inset !important;
+  -webkit-text-fill-color: #{$text-primary} !important;
+  border: 1px solid #{$border-color} !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* keep focus style consistent */
+input:-webkit-autofill:focus {
+  border-color: $accent !important;
+  box-shadow: 0 0 0 2px $accent-glow, 0 0 0 1000px #{$bg-input} inset !important;
 }
