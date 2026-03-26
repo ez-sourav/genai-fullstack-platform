@@ -11,14 +11,14 @@ async function generateInterviewReportController(req, res) {
         const { selfDescription, jobDescription } = req.body;
         const file = req.file;
 
-        
+
         if (!jobDescription) {
             return res.status(400).json({
                 message: "Job description is required"
             });
         }
 
-        
+
         if (!file && !selfDescription) {
             return res.status(400).json({
                 message: "Resume or self description is required"
@@ -27,7 +27,7 @@ async function generateInterviewReportController(req, res) {
 
         let resumeText = "";
 
- 
+
         if (file) {
             const resumeContent = await (new pdfParse.PDFParse(
                 Uint8Array.from(file.buffer)
@@ -36,14 +36,14 @@ async function generateInterviewReportController(req, res) {
             resumeText = resumeContent.text;
         }
 
-       
+
         const interviewReportByAi = await generateInterviewReport({
-            resume: resumeText || null, 
+            resume: resumeText || null,
             selfDescription,
             jobDescription
         });
 
-        
+
         const interviewReport = await interviewReportModel.create({
             user: req.user.id,
             resume: resumeText,
@@ -130,12 +130,19 @@ async function generateResumePdfController(req, res) {
         return res.send(pdfBuffer);
 
     } catch (error) {
-        console.error("PDF GENERATION ERROR:", error);
+        console.error("PDF GENERATION ERROR:", error.message, error.status);
 
-        // HANDLE GEMINI LIMIT 
+        // HANDLE GEMINI LIMIT (429)
         if (error.status === 429) {
             return res.status(429).json({
                 message: "AI limit reached. Try again later."
+            });
+        }
+
+        // HANDLE GEMINI OVERLOAD (503)
+        if (error.status === 503) {
+            return res.status(503).json({
+                message: "AI is busy. Please try again in a few seconds."
             });
         }
 

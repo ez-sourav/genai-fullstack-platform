@@ -118,9 +118,9 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
 async function generatePdfFromHtml(htmlContent) {
     const browser = await puppeteer.launch({
-  headless: "new",
-  args: ["--no-sandbox", "--disable-setuid-sandbox"],
-});
+        headless: "new",
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: "networkidle0" })
 
@@ -215,15 +215,34 @@ STRICT RULES:
 
 Generate the final result now.
 `;
-        const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
-            contents: prompt,
-            config: {
-                responseMimeType: "application/json",
-                responseSchema: zodToJsonSchema(resumePdfSchema),
-            }
-        })
+        let response;
+        let retries = 3;
 
+        while (retries > 0) {
+            try {
+                response = await ai.models.generateContent({
+                    model: "gemini-1.5-flash", // ✅ more stable
+                    contents: prompt,
+                    config: {
+                        responseMimeType: "application/json",
+                        responseSchema: zodToJsonSchema(resumePdfSchema),
+                    }
+                });
+                break;
+            } catch (err) {
+                if (err.status === 503 && retries > 1) {
+                    console.log("Retrying AI request...");
+                    await new Promise(res => setTimeout(res, 2000));
+                    retries--;
+                } else {
+                    throw err;
+                }
+            }
+        }
+
+        if (!response) {
+            throw new Error("AI service unavailable");
+        }
         const jsonMatch = response.text.match(/\{[\s\S]*\}/);
 
         if (!jsonMatch) {
