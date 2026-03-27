@@ -4,6 +4,8 @@ import { LoadingScreen } from "./LoadingScreen";
 
 export const Protected = ({ children }) => {
     const { isAuthChecked, user } = useAuth();
+    
+    // Show loading while authentication is being checked
     if (!isAuthChecked) {
         return (
             <LoadingScreen
@@ -13,8 +15,11 @@ export const Protected = ({ children }) => {
         )
     }
 
+    // If not authenticated, redirect to welcome page
     if (!user) {
-        return <Navigate to={'/login'} replace/>
+        return <Navigate to={'/welcome'} replace/>
     }
+    
+    // If authenticated, render children
     return children
 }
