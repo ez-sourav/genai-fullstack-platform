@@ -37,7 +37,7 @@ const Navbar = () => {
   return (
     <>
     
-    <div className="navbar-wrapper">
+    <div className={`navbar-wrapper ${!user && location.pathname === '/welcome' ? 'no-hamburger' : ''}`}>
       <nav className="navbar">
 
         
@@ -48,20 +48,60 @@ const Navbar = () => {
           </h2>
         </div>
 
-        {/* Hamburger Menu */}
-        <button
-          className={`navbar__hamburger ${mobileMenuOpen ? 'active' : ''}`}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        {/* Hamburger Menu - Hide on welcome page for non-logged-in users */}
+        {!(!user && location.pathname === '/welcome') && (
+          <button
+            className={`navbar__hamburger ${mobileMenuOpen ? 'active' : ''}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        )}
 
         {/* Right - Navigation & User */}
         <div className={`navbar__right ${mobileMenuOpen ? 'active' : ''}`}>
-          {user && (
+          {!user && location.pathname === '/welcome' ? (
+            <>
+              {/* Desktop and Tablet: Show both Login and Get Started */}
+              <nav className="navbar__nav navbar__auth-nav">
+                <button
+                  className="navbar__link navbar__login-link"
+                  onClick={() => handleNavClick("/login")}
+                >
+                  Login
+                </button>
+                <button
+                  className="navbar__link navbar__get-started-link"
+                  onClick={() => handleNavClick("/register")}
+                  style={{
+                    background: "linear-gradient(135deg, #ffb689 0%, #ff7f11 100%)",
+                    color: "#512300",
+                    padding: "0.5rem 1.5rem",
+                    borderRadius: "0.5rem",
+                    fontFamily: "Space Grotesk, sans-serif",
+                    fontWeight: "700",
+                    border: "none",
+                    transition: "all 0.2s ease"
+                  }}
+                >
+                  Get Started
+                </button>
+              </nav>
+              
+              {/* Mobile: Show only Get Started */}
+              <nav className="navbar__nav navbar__auth-nav-mobile">
+                <button
+                  className="navbar__link navbar__get-started-link"
+                  onClick={() => handleNavClick("/register")}
+                >
+                  Get Started
+                </button>
+              </nav>
+            </>
+          ) : user && (
             <>
               <nav className="navbar__nav">
                 <button
