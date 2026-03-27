@@ -33,7 +33,7 @@ export const Register = () => {
     });
 
     if (res.success) {
-      navigate("/");
+      navigate("/", { replace: true });
     } else {
       const msg = res.message?.toLowerCase() || "";
 

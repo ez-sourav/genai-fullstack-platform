@@ -30,9 +30,8 @@ export const Login = () => {
     });
 
     if (res.success) {
-      navigate("/");
+      navigate("/", { replace: true });
     } else {
-      // 🔒 Secure message (no info leak)
       setServerError("Invalid email or password");
     }
   };
