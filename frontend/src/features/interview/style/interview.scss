@@ -14,7 +14,7 @@ $accent: #ff7f11;
 $accent-dark: #e56f00;
 $accent-glow: rgba(#ff7f11, 0.18);
 
-$font-stack:     "Space Grotesk", sans-serif;
+$font-stack: "Space Grotesk", sans-serif;
 
 // ── Severity Palette (Updated to match theme) ────────────────────────────────
 $severity-high: #ef4444;
@@ -119,7 +119,7 @@ $severity-low: #22c55e;
 
   background: rgba(0, 0, 0, 0.55); // slightly darker for better contrast
 
-  backdrop-filter: blur(6px);       // stronger blur
+  backdrop-filter: blur(6px); // stronger blur
   -webkit-backdrop-filter: blur(6px); // Safari support
 
   z-index: 998; // below sidebar (999), above content
@@ -253,7 +253,6 @@ $severity-low: #22c55e;
   border: 1px solid $border-color;
   border-radius: 1rem;
   justify-content: space-between;
-  
 }
 
 .interview-divider {
@@ -297,6 +296,9 @@ $severity-low: #22c55e;
     font-size: 0.875rem;
     cursor: pointer;
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     transition:
       background-color 0.15s,
       color 0.15s;
